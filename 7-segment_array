@@ -1,0 +1,40 @@
+SEG1	EQU 0FFC3h
+SEG2	EQU 0FFC2h
+SEG3	EQU 0FFC1h
+
+	MOV	R4,#26
+	MOV	R5,#10
+	MOV	A,R4
+	MOV	B,#10
+	DIV AB
+
+	MOV	R2,A
+;B is remainder of A/10
+	MOV	R3,B
+	MOV 	A,R2
+	MOV	B,R3
+	SWAP	A
+	ORL A,R3
+	MOV	DPTR,#SEG1
+	MOVX	@DPTR,A
+; Display R5 on SEG2
+	MOV	A,R5
+	MOV	B,#10
+	DIV	AB
+;A is Quotient of A/10
+	MOV	R2,A
+;B is Remainder of A/10
+	MOV	R3,B
+	SWAP	A
+	ORL A,R3
+	MOV	DPTR,#SEG2
+	MOVX	@DPTR,A
+; Display Remainer of 26/10 on SEG2
+	MOV	A,R4
+	MOV	B,R5
+	DIV AB
+;B is Remainder of A/10
+	MOV	R3,B
+	MOV	A,R3
+	MOV	DPTR,#SEG3
+	MOVX	@DPTR,A
